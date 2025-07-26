@@ -1,0 +1,10 @@
+flask
+flask-restful
+pytesseract
+openai
+firebase-admin
+python-dotenv
+Pillow 
+requests 
+PyPDF2 
+python-docx 
