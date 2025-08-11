@@ -1,45 +1,7 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+<think>
+Alright, so I'm trying to help the user convert their callback-based code to use async/await. But wait, the user didn't actually provide any code. They just gave me a list of files and directories, probably from a .gitignore file. Hmm, that's a bit confusing.
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+Maybe they intended to share some code but forgot. I should let them know that I can't proceed without seeing the actual code. I'll ask them to provide the code they want to convert. Once they do that, I can assess whether it's possible to switch it to async/await. If it's feasible, I'll go ahead and update the code accordingly. If not, I'll explain why and offer alternative solutions. I should keep my response friendly and helpful to encourage them to provide the necessary information.
+</think>
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+Please provide the code you'd like to convert to async/await, and I'll help you update it.
