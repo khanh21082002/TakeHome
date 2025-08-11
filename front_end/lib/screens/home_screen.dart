@@ -12,16 +12,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  List<Map<String, dynamic>> _history = [];
-  bool _isLoading = true;
+  List<Map<String, dynamic>> _historyItems = [];
+  bool _isProcessing = true;
 
   @override
   void initState() {
     super.initState();
-    _fetchHistory();
+    _loadHistoryData();
   }
 
-  Future<void> _fetchHistory() async {
+  Future<void> _loadHistoryData() async {
     try {
       final user = _auth.currentUser;
       if (user == null) {
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return;
       }
 
-      setState(() => _isLoading = true);
+      setState(() => _isProcessing = true);
       print('Đang tải lịch sử cho user: ${user.uid}');
 
       final token = await user.getIdToken();
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final historyList = responseData['history'] as List? ?? [];
 
           setState(() {
-            _history = historyList.map((item) {
+            _historyItems = historyList.map((item) {
               final Map<String, dynamic> safeItem = item is Map
                   ? Map<String, dynamic>.from(item)
                   : {};
@@ -68,12 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 'problem': safeItem['problem']?.toString() ?? '',
                 'solution': safeItem['solution']?.toString() ?? '',
                 'file_type': safeItem['file_type']?.toString() ?? '',
-                'date': _formatDateFromString(
-                  safeItem['created_at']?.toString(),
-                ),
+                'date': _formatDateTime(safeItem['created_at']?.toString()),
               };
             }).toList();
-            _isLoading = false;
+            _isProcessing = false;
           });
         } else {
           throw Exception('Invalid response format');
@@ -83,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       print('Lỗi khi tải lịch sử: $e');
-      setState(() => _isLoading = false);
+      setState(() => _isProcessing = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Lỗi khi tải lịch sử: ${e.toString()}')),
       );
@@ -91,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Hàm hỗ trợ chuyển đổi chuỗi ngày tháng
-  String _formatDateFromString(String? dateString) {
+  String _formatDateTime(String? dateString) {
     if (dateString == null) return 'Không rõ ngày';
     try {
       final dateTime = DateTime.parse(dateString);
@@ -152,98 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton.icon(
               icon: Icon(Icons.camera_alt),
               label: Text('Chụp ảnh bài toán'),
-              onPressed: () => Navigator.pushNamed(context, '/camera_upload'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20),
-              ),
-            ),
-            SizedBox(height: 24),
-            ElevatedButton.icon(
-              icon: Icon(Icons.upload_file),
-              label: Text('Tải lên ảnh/file'),
-              onPressed: () => Navigator.pushNamed(context, '/camera_upload'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20),
-              ),
-            ),
-            SizedBox(height: 32),
-            Text(
-              'Lịch sử các bài đã giải:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 12),
-            Expanded(
-              child: _isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : _history.isEmpty
-                  ? Center(child: Text('Chưa có lịch sử.'))
-                  : ListView.builder(
-                      itemCount: _history.length,
-                      itemBuilder: (context, index) {
-                        final item = _history[index];
-                        return Card(
-                          margin: EdgeInsets.symmetric(vertical: 4),
-                          child: ListTile(
-                            leading: Icon(_getFileTypeIcon(item['file_type'])),
-                            title: Text(
-                              item['problem'].toString().length > 50
-                                  ? '${item['problem'].toString().substring(0, 50)}...'
-                                  : item['problem'],
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            subtitle: Text(item['date']),
-                            onTap: () => _showSolutionDialog(context, item),
-                          ),
-                        );
-                      },
-                    ),
+              onPressed: () => Navigator.pushNamed(context, '/camera'),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  IconData _getFileTypeIcon(String fileType) {
-    switch (fileType) {
-      case 'pdf':
-        return Icons.picture_as_pdf;
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-        return Icons.image;
-      case 'doc':
-      case 'docx':
-        return Icons.description;
-      default:
-        return Icons.insert_drive_file;
-    }
-  }
-
-  void _showSolutionDialog(BuildContext context, Map<String, dynamic> item) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Chi tiết bài giải'),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Bài toán:', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(item['problem']),
-              SizedBox(height: 16),
-              Text('Lời giải:', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(item['solution']),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Đóng'),
-          ),
-        ],
       ),
     );
   }
