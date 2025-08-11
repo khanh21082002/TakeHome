@@ -1,16 +1,89 @@
-# front_end
+import 'package:flutter/material.dart';
 
-A new Flutter project.
+void main() {
+  runApp(const MyApp());
+}
 
-## Getting Started
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-This project is a starting point for a Flutter application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
 
-A few resources to get you started if this is your first Flutter project:
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Demo'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            _CounterDisplay(),
+            _IncrementButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CounterDisplay extends StatelessWidget {
+  const _CounterDisplay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'You have pushed the button this many times:',
+      style: Theme.of(context).textTheme.bodyLarge,
+    );
+  }
+}
+
+class _IncrementButton extends StatelessWidget {
+  const _IncrementButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final counter = context.findAncestorStateOfType<_MyHomePageState>()?._counter;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {
+          context.findAncestorStateOfType<_MyHomePageState>()?._incrementCounter();
+        },
+        child: Text(
+          'Increment',
+          style: Theme.of(context).textTheme.button,
+        ),
+      ),
+    );
+  }
+}
