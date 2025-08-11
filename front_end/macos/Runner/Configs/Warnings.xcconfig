@@ -1,13 +1,26 @@
-WARNING_CFLAGS = -Wall -Wconditional-uninitialized -Wnullable-to-nonnull-conversion -Wmissing-method-return-type -Woverlength-strings
-GCC_WARN_UNDECLARED_SELECTOR = YES
+objective-c
+// Nullability and Pointer Warnings
+WARNING_CFLAGS = -Wall -Wnullable-to-nonnull-conversion
 CLANG_UNDEFINED_BEHAVIOR_SANITIZER_NULLABILITY = YES
-CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE
-CLANG_WARN__DUPLICATE_METHOD_MATCH = YES
-CLANG_WARN_PRAGMA_PACK = YES
-CLANG_WARN_STRICT_PROTOTYPES = YES
-CLANG_WARN_COMMA = YES
+
+// Objective-C Warnings
+GCC_WARN_UNDECLARED_SELECTOR = YES
+CLANG_WARN_DUPLICATE_METHOD_MATCH = YES
 GCC_WARN_STRICT_SELECTOR_MATCH = YES
 CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES
 CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES
-GCC_WARN_SHADOW = YES
+
+// Availability and Prototypes Warnings
+CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE
+CLANG_WARN_STRICT_PROTOTYPES = YES
+
+// Code Correctness Warnings
+-Wconditional-uninitialized
+-Wmissing-method-return-type
+-Woverlength-strings
 CLANG_WARN_UNREACHABLE_CODE = YES
+
+// Code Style and Shadow Warnings
+-Wcomma
+CLANG_WARN_PRAGMA_PACK = YES
+GCC_WARN_SHADOW = YES
