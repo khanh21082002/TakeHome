@@ -2,7 +2,8 @@
 #define PLUGIN_REGISTRANT_H_
 
 #include <flutter/plugin_registry.h>
+#include <future>
 
-void RegisterPlugins(flutter::PluginRegistry* registry);
+[[nodiscard]] std::future<void> RegisterPlugins(flutter::PluginRegistry* registry);
 
 #endif  // PLUGIN_REGISTRANT_H_
