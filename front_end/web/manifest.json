@@ -1,35 +1,35 @@
 {
-    "name": "front_end",
-    "short_name": "front_end",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
-    "prefer_related_applications": false,
-    "icons": [
+    "name": "front_end",          // Full name of the web application
+    "short_name": "front_end",   // Short name displayed when installed
+    "start_url": ".",            // Starting URL path of the application
+    "display": "standalone",      // Display mode when installed (could be fullscreen, standalone, or minimal-ui)
+    "background_color": "#0175C2",// Background color when app is loading
+    "theme_color": "#0175C2",    // Theme color for the application
+    "description": "A new Flutter project.",// Brief description of the app
+    "orientation": "portrait-primary",// Screen orientation (portrait-primary, portrait-secondary, landscape-primary, or landscape-secondary)
+    "prefer_related_applications": false,// Whether to prefer related applications
+    "icons": [                     // Array of icons for different sizes and purposes
         {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
+            "src": "icons/Icon-192.png",// Icon source path
+            "sizes": "192x192",         // Icon size in pixels
+            "type": "image/png"          // MIME type of the icon
         },
         {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
+            "src": "icons/Icon-512.png",// Icon source path
+            "sizes": "512x512",         // Icon size in pixels
+            "type": "image/png"          // MIME type of the icon
         },
         {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
+            "src": "icons/Icon-maskable-192.png",// Icon source path
+            "sizes": "192x192",                  // Icon size in pixels
+            "type": "image/png",                  // MIME type of the icon
+            "purpose": "maskable"                // Purpose of the icon (maskable for Android)
         },
         {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
+            "src": "icons/Icon-maskable-512.png",// Icon source path
+            "sizes": "512x512",                  // Icon size in pixels
+            "type": "image/png",                  // MIME type of the icon
+            "purpose": "maskable"                // Purpose of the icon (maskable for Android)
         }
     ]
 }
