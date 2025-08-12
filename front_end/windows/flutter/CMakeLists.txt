@@ -1,109 +1,17 @@
-# This file controls Flutter-level build steps. It should not be edited.
-cmake_minimum_required(VERSION 3.14)
+<think>
+Alright, so I'm looking at this problem where I need to convert callback-based code to use async/await. The user provided a CMake file, which is a build configuration file for C++. My first thought is that CMake is a build system that's procedural and doesn't natively support async/await because it's not a programming language like JavaScript or C#. 
 
-set(EPHEMERAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ephemeral")
+I start by recalling that async/await is a concurrency model that allows writing asynchronous code that's easier to read by using awaitables and async functions. However, in CMake, most operations are synchronous because it's all about configuring builds, compiling, and linking. The scripts are executed in order, and there's no built-in support for asynchronous tasks.
 
-# Configuration provided via flutter tool.
-include(${EPHEMERAL_DIR}/generated_config.cmake)
+Looking at the provided CMake file, I see it's setting up build configurations, including paths, libraries, and custom commands. The custom command runs a Flutter tool backend, which might take some time, but in CMake, this is handled as a custom target that depends on other targets. CMake will build dependencies before moving on to the next target, which is a form of dependency management but not asynchronous in the sense of async/await.
 
-# TODO: Move the rest of this into files in ephemeral. See
-# https://github.com/flutter/flutter/issues/57146.
-set(WRAPPER_ROOT "${EPHEMERAL_DIR}/cpp_client_wrapper")
+I consider whether any part of this could be made asynchronous. Since CMake doesn't support async/await, the answer is no. The build process is inherently sequential, with each step depending on the previous one. Even if there were asynchronous tasks, CMake doesn't provide the necessary syntax or support for them.
 
-# Set fallback configurations for older versions of the flutter tool.
-if (NOT DEFINED FLUTTER_TARGET_PLATFORM)
-  set(FLUTTER_TARGET_PLATFORM "windows-x64")
-endif()
+I also think about the possibility of using external scripts or tools within CMake that might allow for async operations, but that would complicate the build process and likely isn't the intended solution here. The user is asking to convert existing callback-based code, but in this context, the code isn't using callbacks in a way that can be converted to async/await because the language and tooling don't support it.
 
-# === Flutter Library ===
-set(FLUTTER_LIBRARY "${EPHEMERAL_DIR}/flutter_windows.dll")
+So, after considering all this, I conclude that it's not possible to convert the given CMake code to use async/await because CMake doesn't support asynchronous operations in its build scripts. The build process is designed to be sequential, and each step must complete before the next begins, relying on dependencies rather than async/await for concurrency.
+</think>
 
-# Published to parent scope for install step.
-set(FLUTTER_LIBRARY ${FLUTTER_LIBRARY} PARENT_SCOPE)
-set(FLUTTER_ICU_DATA_FILE "${EPHEMERAL_DIR}/icudtl.dat" PARENT_SCOPE)
-set(PROJECT_BUILD_DIR "${PROJECT_DIR}/build/" PARENT_SCOPE)
-set(AOT_LIBRARY "${PROJECT_DIR}/build/windows/app.so" PARENT_SCOPE)
+This is a CMake configuration file, which is not a programming language and does not use callbacks or support async/await. The file is used to configure the build process for a Flutter project and cannot be converted to use async/await patterns. 
 
-list(APPEND FLUTTER_LIBRARY_HEADERS
-  "flutter_export.h"
-  "flutter_windows.h"
-  "flutter_messenger.h"
-  "flutter_plugin_registrar.h"
-  "flutter_texture_registrar.h"
-)
-list(TRANSFORM FLUTTER_LIBRARY_HEADERS PREPEND "${EPHEMERAL_DIR}/")
-add_library(flutter INTERFACE)
-target_include_directories(flutter INTERFACE
-  "${EPHEMERAL_DIR}"
-)
-target_link_libraries(flutter INTERFACE "${FLUTTER_LIBRARY}.lib")
-add_dependencies(flutter flutter_assemble)
-
-# === Wrapper ===
-list(APPEND CPP_WRAPPER_SOURCES_CORE
-  "core_implementations.cc"
-  "standard_codec.cc"
-)
-list(TRANSFORM CPP_WRAPPER_SOURCES_CORE PREPEND "${WRAPPER_ROOT}/")
-list(APPEND CPP_WRAPPER_SOURCES_PLUGIN
-  "plugin_registrar.cc"
-)
-list(TRANSFORM CPP_WRAPPER_SOURCES_PLUGIN PREPEND "${WRAPPER_ROOT}/")
-list(APPEND CPP_WRAPPER_SOURCES_APP
-  "flutter_engine.cc"
-  "flutter_view_controller.cc"
-)
-list(TRANSFORM CPP_WRAPPER_SOURCES_APP PREPEND "${WRAPPER_ROOT}/")
-
-# Wrapper sources needed for a plugin.
-add_library(flutter_wrapper_plugin STATIC
-  ${CPP_WRAPPER_SOURCES_CORE}
-  ${CPP_WRAPPER_SOURCES_PLUGIN}
-)
-apply_standard_settings(flutter_wrapper_plugin)
-set_target_properties(flutter_wrapper_plugin PROPERTIES
-  POSITION_INDEPENDENT_CODE ON)
-set_target_properties(flutter_wrapper_plugin PROPERTIES
-  CXX_VISIBILITY_PRESET hidden)
-target_link_libraries(flutter_wrapper_plugin PUBLIC flutter)
-target_include_directories(flutter_wrapper_plugin PUBLIC
-  "${WRAPPER_ROOT}/include"
-)
-add_dependencies(flutter_wrapper_plugin flutter_assemble)
-
-# Wrapper sources needed for the runner.
-add_library(flutter_wrapper_app STATIC
-  ${CPP_WRAPPER_SOURCES_CORE}
-  ${CPP_WRAPPER_SOURCES_APP}
-)
-apply_standard_settings(flutter_wrapper_app)
-target_link_libraries(flutter_wrapper_app PUBLIC flutter)
-target_include_directories(flutter_wrapper_app PUBLIC
-  "${WRAPPER_ROOT}/include"
-)
-add_dependencies(flutter_wrapper_app flutter_assemble)
-
-# === Flutter tool backend ===
-# _phony_ is a non-existent file to force this command to run every time,
-# since currently there's no way to get a full input/output list from the
-# flutter tool.
-set(PHONY_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/_phony_")
-set_source_files_properties("${PHONY_OUTPUT}" PROPERTIES SYMBOLIC TRUE)
-add_custom_command(
-  OUTPUT ${FLUTTER_LIBRARY} ${FLUTTER_LIBRARY_HEADERS}
-    ${CPP_WRAPPER_SOURCES_CORE} ${CPP_WRAPPER_SOURCES_PLUGIN}
-    ${CPP_WRAPPER_SOURCES_APP}
-    ${PHONY_OUTPUT}
-  COMMAND ${CMAKE_COMMAND} -E env
-    ${FLUTTER_TOOL_ENVIRONMENT}
-    "${FLUTTER_ROOT}/packages/flutter_tools/bin/tool_backend.bat"
-      ${FLUTTER_TARGET_PLATFORM} $<CONFIG>
-  VERBATIM
-)
-add_custom_target(flutter_assemble DEPENDS
-  "${FLUTTER_LIBRARY}"
-  ${FLUTTER_LIBRARY_HEADERS}
-  ${CPP_WRAPPER_SOURCES_CORE}
-  ${CPP_WRAPPER_SOURCES_PLUGIN}
-  ${CPP_WRAPPER_SOURCES_APP}
-)
+CMake is a build system that handles build configuration and dependency resolution, it's not meant to be used with async/await constructs. The code you've shown is standard CMake syntax for setting up build targets and configurations.
