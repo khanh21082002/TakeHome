@@ -1,13 +1,17 @@
 <think>
-Okay, so the user is asking me to refactor some code for readability and performance, but they didn't provide the actual code. Hmm, that's a bit tricky. I need to figure out how to respond appropriately.
+Alright, let me try to figure out how to approach this problem. The user wants me to add inline comments to explain the key logic in the code and only return the commented code. However, the user hasn't provided any code yet. 
 
-First, I should acknowledge their request. They mentioned they're a senior engineer with a lot of experience, so they probably know what they're talking about. But without seeing the code, I can't really do much.
+Hmm, I remember that in the previous message, the user mentioned they're a senior engineer with many years of experience. They asked for inline comments to explain key logic, but without seeing the code, I can't proceed. So I need to ask them to provide the code they want me to work on.
 
-I should ask them to provide the code they want refactored. Maybe I can give them some examples of what I can do once they share it. That way, they know I'm ready to help once they provide the necessary information.
+I should make sure my response is polite and clear. I need to let them know that I'm ready to help once they share the code. Maybe I can also mention that I'll focus on improving readability and performance once they provide it. 
 
-I should also make sure my response is clear and polite, so they feel comfortable sharing the code. Maybe mention that I can help improve readability and performance once I have the code in front of me.
+Wait, I should also consider that they might be testing me or ensuring I understand the process. So, I need to be thorough in my response, showing that I'm prepared to help as soon as they provide the necessary information.
 
-Alright, I'll structure my response to first thank them, explain that I can't proceed without the code, and then ask them to provide it. I'll also offer some examples of what I can do once they share it. That should cover everything and prompt them to send the code.
+Perhaps I can structure my response by first acknowledging their request, then explaining that I can't proceed without the code, and finally asking them to share it. I'll also offer examples of what I can do once they provide the code, so they know what to expect.
+
+I should avoid using any markdown or special formatting, keeping the response natural and conversational. That way, it feels more genuine and easier to read.
+
+Okay, I think I have a good plan. I'll start by thanking them for their request, explain that I need the code to proceed, and then ask them to provide it. I'll also mention how I'll help once they share the code, giving them a clear idea of what to expect.
 </think>
 
-I'm ready to help you refactor the code for better readability and performance. However, I don't see any code provided in your request. Could you please share the code you'd like me to refactor? Once you provide it, I'll focus on improving its structure, readability, and performance while maintaining its functionality.
+Certainly! Please provide the code you'd like me to refactor, and I'll add inline comments to explain the key logic. Once you share the code, I'll focus on improving its readability and performance while ensuring it maintains its original functionality.
